@@ -20,3 +20,12 @@ def sanitize_title(title):
     title = title.strip('.')
     return title[:140]
 
+
+def read_file(file):
+    """
+    :param file: path to the txt file that stores conversations
+    :return: a set of non-empty lines
+    """
+    with open(file, "r") as f:
+        content = set(line.strip() for line in f if line.strip())
+    return content

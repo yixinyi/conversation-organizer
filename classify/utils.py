@@ -1,85 +1,56 @@
-from pathlib import Path
+import json
+import re
+import yaml
+from typing import Optional, List
 
 
-def update_yaml_front_matter(file_path: Path, new_tags: list[str]):
-    with file_path.open("r", encoding="utf-8") as f:
-        content = f.read()
-
-    if not content.startswith('---'):
-        print(f"No YAML found in {file_path.name}, skipping.")
-        return
-
-    parts = content.split('---', 2)
-    yaml_raw = parts[1]
-    body = parts[2] if len(parts) > 2 else ""
-
-    yaml_lines = yaml_raw.strip().splitlines()
-    new_yaml_lines = []
-    tags = []
-    tags_found = False
-    collecting_tags = False
-
-    for line in yaml_lines:
-        if line.strip().startswith("tags:"):
-            tags_found = True
-            collecting_tags = True
-            continue  # skip 'tags:' line
-        elif collecting_tags:
-            if line.strip().startswith("-"):
-                tags.append(line.strip().lstrip("- ").strip())
-                continue
-            else:
-                collecting_tags = False  # end of tag list
-        new_yaml_lines.append(line)
-
-    # Add new tags, deduplicated and sorted
-    all_tags = sorted(set(tags + new_tags))
-    new_yaml_lines.append("tags:")
-    new_yaml_lines.extend([f" - {tag}" for tag in all_tags])
-
-    new_yaml_block = "---\n" + "\n".join(new_yaml_lines) + "\n---"
-    updated_content = new_yaml_block + body
-
-    with file_path.open("w", encoding="utf-8") as f:
-        f.write(updated_content)
+def extract_json_from_md(md_text: str):
+    # Extract JSON code block using regex
+    match = re.search(r'```json\s*(\{.*?\})\s*```', md_text, re.DOTALL)
+    if match:
+        json_str = match.group(1)
+        data = json.loads(json_str)
+        return data
+    else:
+        print("No valid JSON found.")
 
 
+def add_metadata_to_md(md: str, title: Optional[str], tags: Optional[List[str]]):
+    """
+    Adds or updates YAML front matter, appends to 'aliases' and 'tags' in a Markdown string.
+    The title is added as the MD title, and as an alias.
 
-def update_yaml_front_matter2(file_path: Path, new_tag: str):
-    with file_path.open("r", encoding="utf-8") as f:
-        content = f.read()
+    Args:
+        md: The Markdown content.
+        title: Optional title to set.
+        tags: Optional list of tags to append.
 
-    if not content.startswith('---'):
-        print(f"No YAML found in {file_path.name}, skipping.")
-        return
+    Returns:
+        The modified Markdown content with updated YAML front matter.
+    """
+    yaml_pattern = r'^---\n(.*?)\n---\n(.*)$'  # Front matter followed by body
+    match = re.match(yaml_pattern, md, re.DOTALL)
 
-    parts = content.split('---', 2)
-    yaml_raw = parts[1]
-    body = parts[2] if len(parts) > 2 else ""
+    if match:
+        front_matter = yaml.safe_load(match.group(1)) or {}
+        body = match.group(2)
+    else:
+        front_matter = {}
+        body = md.lstrip()
 
-    yaml_lines = yaml_raw.strip().splitlines()
-    new_yaml_lines = []
-    tags = []
-    tags_found = False
+    def update_field(field: str, value: list):
+        existing = front_matter.get(field, [])
+        if not isinstance(existing, list):
+            existing = [existing]
+        combined = list(dict.fromkeys(existing + value))  # remove duplicates, preserve order
+        front_matter[field] = combined
 
-    for line in yaml_lines:
-        if line.strip().startswith("tags:"):
-            tags_found = True
-            continue  # skip this line, we'll rebuild it
-        elif tags_found and line.strip().startswith("-"):
-            tags.append(line.strip().lstrip("- ").strip())
-        else:
-            new_yaml_lines.append(line)
+    if title is not None:
+        update_field("aliases", [title])
 
-    if new_tag not in tags:
-        tags.append(new_tag)
+    if tags is not None:
+        update_field("tags", tags)
 
-    tags = sorted(set(tags))
-    new_yaml_lines.append("tags:")
-    new_yaml_lines.extend([f" - {tag}" for tag in tags])
-
-    new_yaml_block = "---\n" + "\n".join(new_yaml_lines) + "\n---\n"
-    updated_content = new_yaml_block + body
-
-    with file_path.open("w", encoding="utf-8") as f:
-        f.write(updated_content)
+    new_yaml = yaml.dump(front_matter, sort_keys=False).strip()
+    new_md = f"---\n{new_yaml}\n---\n# {title} \n\n{body}"
+    return new_md

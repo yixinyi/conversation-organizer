@@ -1,8 +1,21 @@
 from pathlib import Path
-from export.converter import process_conversations
-from classify.ollama_mistral import classify_files
+from converter import write_conversations
 import argparse
 import json
+
+"""
+This script processes conversation data from a JSON file, extracts messages,
+and writes them to markdown files with a YAML front matter. 
+
+The script is designed to be run as a command-line interface (CLI), allowing the user to
+specify the input JSON file and output directory.
+
+Usage:
+    source venv/bin/activate    
+    python script.py /path/to/conversations.json /path/to/output_directory 
+
+"""
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -15,11 +28,9 @@ def main():
         return
     with args.input_file.open("r", encoding="utf-8") as file:
         conversations_data = json.load(file)
-    created_files_info = process_conversations(conversations_data, args.output_dir)
+    created_files_info = write_conversations(conversations_data, args.output_dir)
     for info in created_files_info:
         print(f"Created file: {info['file']}")
-
-    # classify_files(args.output_dir)
 
 
 if __name__ == "__main__":
