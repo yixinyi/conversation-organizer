@@ -1,7 +1,7 @@
 from utils import convert_latex_to_markdown, read_file
 from datetime import datetime
 from pathlib import Path
-
+import yaml
 
 def extract_message_parts(message):
     content = message.get("content")
@@ -41,16 +41,23 @@ def create_file_name(conversation_id):
     return f"{conversation_id}.md"
 
 
-def write_messages_to_file(file_path, messages, conversation_id, create_time, update_time, title):
+def write_messages_to_file(file_path, messages: list, conversation_id, create_time, update_time, title):
     """
     Writes the messages to a markdown file with create time and update time.
+    Each message is a dictionary: {'author': 'user or ChatGPT', 'text': 'text'}.
     """
+    total_length = sum(len(s['text']) for s in messages)
+    yaml_data = {
+        "id": conversation_id,
+        "create_time": create_time,
+        "update_time": update_time,
+        "original_title": title,
+        "turns": len(messages),
+        "characters": total_length
+    }
     with file_path.open("w", encoding="utf-8") as file:
         file.write("---\n")
-        file.write(f"id: \"{conversation_id}\"\n")
-        file.write(f"create_time: \"{create_time}\"\n")
-        file.write(f"update_time: \"{update_time}\"\n")
-        file.write(f"original_title: \"{title}\"\n")
+        yaml.dump(yaml_data, file, sort_keys=False)
         file.write("---\n")
         for message in messages:
             file.write(f"**{message['author']}**\n\n")
@@ -83,8 +90,8 @@ def write_conversations(conversations_data, output_dir: Path):
         file_path: Path = output_dir / file_name
         messages = get_conversation_messages(conversation)
 
-        create_time = datetime.fromtimestamp(conversation.get("create_time")).strftime("%Y-%m-%d %H:%M:%S")
-        update_time = datetime.fromtimestamp(conversation.get("update_time")).strftime("%Y-%m-%d %H:%M:%S")
+        create_time = datetime.fromtimestamp(conversation.get("create_time")).isoformat(timespec="seconds")
+        update_time = datetime.fromtimestamp(conversation.get("update_time")).isoformat(timespec="seconds")
         conversation_title = conversation.get("title")
         write_messages_to_file(file_path, messages, conversation_id, create_time, update_time, conversation_title)
 
