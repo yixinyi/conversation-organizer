@@ -73,25 +73,15 @@ def conversation_info(conversation):
 
 def write_conversations(conversations_data, output_dir: Path):
     """
-    Converts the conversations in the ChatGPT exported json file to Markdown files.
+    Converts the conversations in the ChatGPT exported json file to Markdown files with a YAML frontmatter
     """
     # Ensure the output directory exists
     output_dir.mkdir(parents=True, exist_ok=True)
-
-    # This is the file that keeps track of the user-deleted conversations that are to be ignored in future exports
-    file_with_deleted_conversations = "deleted_conversations.txt"
-    deleted_file_path: Path = output_dir / file_with_deleted_conversations
-    if not deleted_file_path.exists():
-        deleted_file_path.parent.mkdir(parents=True, exist_ok=True)  # Ensures the directory exists
-        deleted_file_path.touch()  # Creates an empty file
-    deleted_conversations = read_file(deleted_file_path)
 
     created_files_info = []
     for conversation in conversations_data:
         data = conversation_info(conversation)
         file_name = create_file_name_tile_and_id(data["original_title"], data["id"])
-        if file_name in deleted_conversations:
-            continue
 
         file_path: Path = output_dir / file_name
         messages = get_conversation_messages(conversation)
