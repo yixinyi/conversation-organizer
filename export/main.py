@@ -4,7 +4,7 @@ import argparse
 import json
 
 """
-This script processes conversation data from a JSON file, extracts messages,
+This script processes conversation config from a JSON file, extracts messages,
 and writes them to markdown files with a YAML front matter. 
 
 The script is designed to be run as a command-line interface (CLI), allowing the user to
@@ -19,7 +19,7 @@ Usage:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Process conversation data from a JSON file and create Obsidian-friendly markdown files.")
+        description="Process conversation config from a JSON file and create Obsidian-friendly markdown files.")
     parser.add_argument("input_file", type=Path, help="Path to the input conversations JSON file.")
     parser.add_argument("output_dir", type=Path, help="Directory to save the output files.")
     args = parser.parse_args()

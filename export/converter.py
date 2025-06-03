@@ -48,7 +48,7 @@ def create_file_name_tile_and_id(title, conversation_id):
     return f"{sanitized_title} [{short_id}].md"
 
 
-def conversation_info(conversation):
+def yaml_data(conversation):
     messages = get_conversation_messages(conversation)
     conversation_id = conversation.get("id")
     create_time = datetime.fromtimestamp(conversation.get("create_time")).isoformat(timespec="seconds")

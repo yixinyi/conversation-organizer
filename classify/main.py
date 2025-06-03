@@ -2,7 +2,7 @@ import os
 import json
 from pathlib import Path
 from classifier import process_all_files
-from llm_models import Gemini
+from llm_models import Gemini, Ollama
 
 
 def main():
@@ -16,16 +16,11 @@ def main():
     script_dir = os.path.dirname(script_path)
     root_dir = os.path.dirname(script_dir)
 
-    # Load gemini_config.json using the absolute path
-    with open(os.path.join(root_dir, 'data', 'gemini_config.json'), "r") as f:
-        config = json.load(f)
-    api_key = config["api_key"]
-    api_url = config["api_url"]
-
-    with open(os.path.join(root_dir, 'data', 'user_tags.json'), "r") as f:
+    with open(os.path.join(root_dir, 'config', 'user_tags.json'), "r") as f:
         tag_dict = json.load(f)
 
-    llm = Gemini(api_key, api_url)
+    llm = Gemini()
+    # llm = Ollama()
     # process_conversation(args.folder_path, llm, tag_dict) # for a single file
     process_all_files(args.folder_path, llm, tag_dict)  # for a folder
 

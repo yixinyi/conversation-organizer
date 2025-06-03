@@ -1,3 +1,6 @@
+import json
+import os
+
 import requests
 from abc import ABC, abstractmethod
 
@@ -9,9 +12,16 @@ class LLM(ABC):
 
 
 class Gemini(LLM):
-    def __init__(self, api_key, api_url):
-        self.api_key = api_key
-        self.api_url = api_url
+
+    def __init__(self):
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        root_dir = os.path.dirname(script_dir)
+        with open(os.path.join(root_dir, 'config', 'gemini.json'), "r") as f:
+            config = json.load(f)
+
+        self.api_key = config["api_key"]
+        self.api_url = config["api_url"]
 
     def response_from(self, prompt):
         payload = {
@@ -41,9 +51,15 @@ class Gemini(LLM):
 
 
 class Ollama(LLM):
-    def __init__(self, api_url, model):
-        self.api_url = api_url
-        self.model = model
+    def __init__(self):
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        root_dir = os.path.dirname(script_dir)
+        with open(os.path.join(root_dir, 'config', 'ollama.json'), "r") as f:
+            config = json.load(f)
+
+        self.api_url = config["api_url"]
+        self.model = config["model"]
 
     def response_from(self, prompt):
         payload = {

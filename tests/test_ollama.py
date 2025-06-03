@@ -6,7 +6,7 @@ from classify.llm_models import Ollama
 script_path = os.path.abspath(__file__)
 script_dir = os.path.dirname(script_path)
 root_dir = os.path.dirname(script_dir)
-config_path = os.path.join(root_dir, 'data', 'ollama_config.json')
+config_path = os.path.join(root_dir, 'config', 'ollama.json')
 
 
 with open(config_path, "r") as f:
