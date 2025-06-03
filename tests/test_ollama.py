@@ -1,27 +1,21 @@
-import requests
-
-OLLAMA_API_URL = "http://localhost:11434/api/chat"
-MODEL_NAME = "mistral:latest"  # Replace with your model's real name
-
-
-def test_ollama_connection():
-    prompt = "Say hello in one sentence."
-
-    payload = {
-        "model": MODEL_NAME,
-        "messages": [{"role": "user", "content": prompt}],
-        "stream": False
-    }
-
-    try:
-        response = requests.post(OLLAMA_API_URL, json=payload)
-        response.raise_for_status()
-        reply = response.json()
-        print("✅ Ollama responded successfully!")
-        print("Model's reply:", reply["message"]["content"])
-    except requests.RequestException as e:
-        print("❌ Error contacting Ollama:", e)
+import os
+import json
+from classify.llm_models import Ollama
 
 
-if __name__ == "__main__":
-    test_ollama_connection()
+script_path = os.path.abspath(__file__)
+script_dir = os.path.dirname(script_path)
+root_dir = os.path.dirname(script_dir)
+config_path = os.path.join(root_dir, 'data', 'ollama_config.json')
+
+
+with open(config_path, "r") as f:
+    config = json.load(f)
+
+api_url = config["api_url"]
+model = config["model"]
+
+reply = Ollama(api_url, model).response_from("Say hello in one sentence.")
+
+
+print(reply)

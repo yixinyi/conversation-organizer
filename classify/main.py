@@ -2,7 +2,7 @@ import os
 import json
 from pathlib import Path
 from classifier import process_all_files
-from gemini import Gemini
+from llm_models import Gemini
 
 
 def main():
@@ -13,12 +13,11 @@ def main():
 
     # Get the directory where the script is located
     script_path = os.path.abspath(__file__)
-
     script_dir = os.path.dirname(script_path)
     root_dir = os.path.dirname(script_dir)
 
-    # Load config.json using the absolute path
-    with open(os.path.join(root_dir, 'data', 'config.json'), "r") as f:
+    # Load gemini_config.json using the absolute path
+    with open(os.path.join(root_dir, 'data', 'gemini_config.json'), "r") as f:
         config = json.load(f)
     api_key = config["api_key"]
     api_url = config["api_url"]

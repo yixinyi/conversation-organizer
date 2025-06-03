@@ -13,6 +13,7 @@ def extract_json_from_md(md_text: str):
         return data
     else:
         print("No valid JSON found.")
+        return None
 
 
 def add_metadata_to_md(md: str, title: Optional[str], tags: Optional[List[str]]):

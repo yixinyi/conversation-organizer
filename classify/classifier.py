@@ -16,13 +16,16 @@ def process_conversation(file, llm, tags_with_descriptions):
         "Return in the format of a json with two fields 'title' and 'tags'. "
         f"Conversation: \n{conversation_text}\n"
     )
-    data = extract_json_from_md(llm.classify_conversation(prompt))
-    title = data["title"]
-    tags = data["tags"]
-    with file.open("w", encoding="utf-8") as f:
-        f.write(add_metadata_to_md(content, title, tags))
+    data = extract_json_from_md(llm.response_from(prompt))
+    if data is None:
+        pass
+    else:
+        title = data["title"]
+        tags = data["tags"]
+        with file.open("w", encoding="utf-8") as f:
+            f.write(add_metadata_to_md(content, title, tags))
 
-    print(f"The title is '{title}' and tags '{tags}'.")
+        print(f"The title is '{title}' and tags '{tags}'.")
 
 
 def process_all_files(folder_path: Path, llm, tags_with_descriptions):
