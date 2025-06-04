@@ -1,4 +1,4 @@
-from utils import convert_latex_to_markdown, read_file, sanitize_title
+from utils import convert_latex_to_markdown, sanitize_title
 from datetime import datetime
 from pathlib import Path
 import yaml
@@ -48,7 +48,7 @@ def create_file_name_tile_and_id(title, conversation_id):
     return f"{sanitized_title} [{short_id}].md"
 
 
-def yaml_data(conversation):
+def conversation_info(conversation):
     messages = get_conversation_messages(conversation)
     conversation_id = conversation.get("id")
     create_time = datetime.fromtimestamp(conversation.get("create_time")).isoformat(timespec="seconds")
