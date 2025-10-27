@@ -1,7 +1,7 @@
 # ChatGPT Conversation Organizer
 
-This tool converts your official ChatGPT `conversations.json` export into individual Markdown (`.md`) files suitable for use with [Obsidian](https://obsidian.md/),
-where plugins like Dataview and Smart Connections offer better organization and search than the native ChatGPT app or web interface.
+This tool converts conversation exports (ChatGPT and Grok) into individual Markdown (`.md`) files suitable for use with [Obsidian](https://obsidian.md/),
+where plugins like Dataview and Smart Connections offer better organization and search than the native chat interfaces.
 
 ---
 
@@ -10,9 +10,9 @@ where plugins like Dataview and Smart Connections offer better organization and 
 **Conversion highlights:**
 
 * Converts each conversation into a standalone Markdown file, with YAML front matter containing metadata and conversation statistics
-* Re-converting a newer `conversations.json` export updates existing notes in-place—no duplication
-* Automatically includes a link to the original ChatGPT conversation
-* The name of the model that generated the response is shown
+* Re-converting a newer export updates existing notes in-place—no duplication
+* Automatically includes a link to the original conversation
+* The name of the model (ChatGPT exports) or speaker is shown
 * Renders:
 
   * Search tool results with URLs
@@ -50,6 +50,12 @@ where plugins like Dataview and Smart Connections offer better organization and 
 
    ```bash
    python -m export.main /path/to/conversations.json /path/to/output_folder/
+   ```
+
+   To convert a Grok export instead:
+
+   ```bash
+   python -m export.main /path/to/grok_export.json /path/to/output_folder/ --provider grok
    ```
 
 ---
