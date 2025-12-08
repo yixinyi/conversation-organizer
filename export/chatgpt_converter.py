@@ -1,11 +1,23 @@
+import re
 import json
+import string
 from common.utils import find_files_by_id, parse_file
-from export.utils import convert_latex_delimiters_excluding_backticks, sanitize_title, clean_text
+from export.utils import convert_latex_delimiters_excluding_backticks, sanitize_title, format_timestamp
 from datetime import datetime
 from pathlib import Path
 import yaml
 
+# -------------------------------------------------------------------------
+# Cleaning Helpers
+# -------------------------------------------------------------------------
+def clean_text(text):
+    cleaned_text = "".join(char for char in text if char in string.printable)
+    return re.sub(r"citeturn0search(\d+)", r"(See ref \1)", cleaned_text)
 
+
+# -------------------------------------------------------------------------
+# Core Extraction Functions
+# -------------------------------------------------------------------------
 def extract_message_parts(message: dict) -> list:
     """
     Extracts the main text content from a message.
@@ -93,6 +105,10 @@ def extract_search_result_urls(message: dict) -> list:
     return urls
 
 
+# -------------------------------------------------------------------------
+# File Operations
+# -------------------------------------------------------------------------
+
 def create_file_name_id(conversation_id: str) -> str:
     return f"{conversation_id}.md"
 
@@ -105,8 +121,10 @@ def create_file_name_tile_and_id(title: str, conversation_id: str) -> str:
 def conversation_info(conversation: dict) -> dict:
     messages = get_conversation_messages(conversation)
     conversation_id = conversation.get("id")
-    create_time = datetime.fromtimestamp(conversation.get("create_time")).isoformat(timespec="seconds")
-    update_time = datetime.fromtimestamp(conversation.get("update_time")).isoformat(timespec="seconds")
+    create_time = format_timestamp(conversation.get("create_time"))
+    update_time = format_timestamp(conversation.get("modify_time"))
+    # create_time = datetime.fromtimestamp(conversation.get("create_time")).isoformat(timespec="seconds")
+    # update_time = datetime.fromtimestamp(conversation.get("update_time")).isoformat(timespec="seconds")
     conversation_title = conversation.get("title")
     is_archived = conversation.get("is_archived")
 

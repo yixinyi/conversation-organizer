@@ -13,7 +13,7 @@ Supported providers:
 
 Run at the root folder:
     source venv/bin/activate
-    python -m export.main /path/to/export.json /path/to/output_directory [--provider grok]
+    python -m export.main /path/to/export.json /path/to/output_directory --provider "grok"
 
 """
 
