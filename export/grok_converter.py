@@ -115,8 +115,8 @@ def write_to_file(metadata: dict, messages: list, file_path: Path) -> None:
         file.write("---\n")
         yaml.dump(metadata, file, sort_keys=False)
         file.write("---\n")
-
-        file.write(f"[Conversation url](https://x.com/i/grok)\n")
+        conversation_url = "https://grok.com/c/" + metadata["id"]
+        file.write(f"[Conversation url]({conversation_url})\n")
         file.write("\n====================\n\n")
 
         for message in messages:
@@ -145,7 +145,7 @@ def update_file(conversation_wrapper: dict, output_dir: Path) -> None:
     existing_file = find_files_by_id(output_dir, data["id"])
     messages = get_conversation_messages(conversation_wrapper)
 
-    if False: #existing_file is not None:
+    if existing_file is not None:
         metadata = parse_file(existing_file)["metadata"]
 
         # Compare datetimes

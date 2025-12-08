@@ -55,7 +55,7 @@ where plugins like Dataview and Smart Connections offer better organization and 
    To convert a Grok export instead:
 
    ```bash
-   python -m export.main /path/to/grok_export.json /path/to/output_folder/ --provider grok
+   python -m export.main /path/to/prod-grok-backend.json /path/to/output_folder/ --provider "grok"
    ```
 
 ---
