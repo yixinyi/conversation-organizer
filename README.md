@@ -1,4 +1,4 @@
-# ChatGPT Conversation Organizer
+# ChatGPT and Grok Conversation Organizer
 
 This tool converts conversation exports (ChatGPT and Grok) into individual Markdown (`.md`) files suitable for use with [Obsidian](https://obsidian.md/),
 where plugins like Dataview and Smart Connections offer better organization and search than the native chat interfaces.
