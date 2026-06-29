@@ -1,6 +1,6 @@
-# ChatGPT and Grok Conversation Organizer
+# Multi-Vendor Conversation Organizer
 
-This tool converts conversation exports (ChatGPT and Grok) into individual Markdown (`.md`) files suitable for use with [Obsidian](https://obsidian.md/),
+This tool converts conversation exports (ChatGPT, Grok, Claude, and DeepSeek) into individual Markdown (`.md`) files suitable for use with [Obsidian](https://obsidian.md/),
 where plugins like Dataview and Smart Connections offer better organization and search than the native chat interfaces.
 
 ---
@@ -12,6 +12,9 @@ where plugins like Dataview and Smart Connections offer better organization and 
 * Converts each conversation into a standalone Markdown file, with YAML front matter containing metadata and conversation statistics
 * Re-converting a newer export updates existing notes in-place—no duplication
 * Automatically includes a link to the original conversation
+* Supports `.zip`, extracted export folders, and raw `.json` files
+* Auto-detects supported providers, with an explicit `--provider` override
+* Writes conversations into provider subfolders by default
 * The name of the model (ChatGPT exports) or speaker is shown
 * Renders:
 
@@ -49,13 +52,19 @@ where plugins like Dataview and Smart Connections offer better organization and 
 3. Run the converter with:
 
    ```bash
-   python -m export.main /path/to/conversations.json /path/to/output_folder/
+   python -m export.main /path/to/export.zip /path/to/output_folder/
    ```
 
-   To convert a Grok export instead:
+   To force a provider or convert a raw JSON file:
 
    ```bash
-   python -m export.main /path/to/prod-grok-backend.json /path/to/output_folder/ --provider "grok"
+   python -m export.main /path/to/conversations.json /path/to/output_folder/ --provider chatgpt
+   ```
+
+   Existing flat notes are updated in place by default. To move matching legacy notes into provider subfolders:
+
+   ```bash
+   python -m export.main /path/to/export.zip /path/to/output_folder/ --migrate-layout
    ```
 
 ---
