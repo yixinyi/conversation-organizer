@@ -1,7 +1,6 @@
 # Multi-Vendor Conversation Organizer
 
-This tool converts conversation exports (ChatGPT, Grok, Claude, and DeepSeek) into individual Markdown (`.md`) files suitable for use with [Obsidian](https://obsidian.md/),
-where plugins like Dataview and Smart Connections offer better organization and search than the native chat interfaces.
+This tool converts conversation exports (ChatGPT, Grok, Claude) into individual Markdown (`.md`) files suitable for use with [Obsidian](https://obsidian.md/). Images, videos, url sources and other artifacts are not covered, but the link to the original conversation is automatically included.
 
 ---
 
@@ -11,11 +10,7 @@ where plugins like Dataview and Smart Connections offer better organization and 
 
 * Converts each conversation into a standalone Markdown file, with YAML front matter containing metadata and conversation statistics
 * Re-converting a newer export updates existing notes in-place—no duplication
-* Automatically includes a link to the original conversation
-* Supports `.zip`, extracted export folders, and raw `.json` files
-* Auto-detects supported providers, with an explicit `--provider` override
-* Writes conversations into provider subfolders by default
-* The name of the model (ChatGPT exports) or speaker is shown
+* The name of the model or speaker is shown (except for Claude)
 * Renders:
 
   * Search tool results with URLs
@@ -24,7 +19,6 @@ where plugins like Dataview and Smart Connections offer better organization and 
 
 *Tip: Use Git to track and review local changes over time.*
 
-> ⚠️ Currently, deep research links, images, audio and video content in conversations are **not supported**.
 
 ---
 
@@ -58,7 +52,7 @@ where plugins like Dataview and Smart Connections offer better organization and 
    To force a provider or convert a raw JSON file:
 
    ```bash
-   python -m export.main /path/to/conversations.json /path/to/output_folder/ --provider chatgpt
+   python -m export.main /path/to/conversations.json /path/to/output_folder/ 
    ```
 
    Existing flat notes are updated in place by default. To move matching legacy notes into provider subfolders:

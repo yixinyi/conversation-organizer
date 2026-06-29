@@ -1,6 +1,7 @@
 from pathlib import Path
 from export.chatgpt_converter import update_all_files as update_chatgpt
 from export.grok_converter import update_all_files as update_grok
+from export.claude_converter import update_all_files as update_claude
 import argparse
 import json
 
@@ -10,6 +11,7 @@ CLI entry point for converting conversation exports into Markdown notes.
 Supported providers:
     - ChatGPT (default)
     - Grok (xAI)
+    - Claude (Anthropic)
 
 Run at the root folder:
     source venv/bin/activate
@@ -25,9 +27,8 @@ def main():
     parser.add_argument("output_dir", type=Path, help="Directory to save the output files.")
     parser.add_argument(
         "--provider",
-        choices=("chatgpt", "grok"),
-        default="chatgpt",
-        help="Conversation export provider to convert (default: chatgpt).",
+        choices=("chatgpt", "grok", "claude"),
+        help="Conversation export provider to convert.",
     )
     args = parser.parse_args()
     if not args.input_file.exists():
@@ -38,6 +39,7 @@ def main():
     converters = {
         "chatgpt": update_chatgpt,
         "grok": update_grok,
+        "claude": update_claude,
     }
     converters[args.provider](conversations_data, args.output_dir)
 
