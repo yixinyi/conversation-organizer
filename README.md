@@ -1,6 +1,8 @@
 # Multi-Vendor Conversation Organizer
 
-This tool converts conversation exports (ChatGPT, Grok, Claude) into individual Markdown (`.md`) files suitable for use with [Obsidian](https://obsidian.md/). Images, videos, url sources and other artifacts are not covered, but the link to the original conversation is automatically included.
+This tool converts conversation exports (ChatGPT, Grok, Claude, DeepSeek) into individual Markdown (`.md`) files suitable for use with [Obsidian](https://obsidian.md/). 
+
+The converter focuses primarily on conversation text and metadata. Rich content such as images, videos, source references, tool outputs, and other provider-specific artifacts may not be included. A link to the original conversation is automatically included, so you can access the complete content if needed. 
 
 ---
 
@@ -10,12 +12,8 @@ This tool converts conversation exports (ChatGPT, Grok, Claude) into individual 
 
 * Converts each conversation into a standalone Markdown file, with YAML front matter containing metadata and conversation statistics
 * Re-converting a newer export updates existing notes in-place—no duplication
-* The name of the model or speaker is shown (except for Claude)
-* Renders:
-
-  * Search tool results with URLs
-  * Canvas code
-  * LaTeX blocks compatible with Obsidian display
+* The name of the model or speaker is shown, if the original export provides it
+* Renders LaTeX blocks compatible with Obsidian display
 
 *Tip: Use Git to track and review local changes over time.*
 
