@@ -29,37 +29,7 @@ The converter focuses primarily on conversation text and metadata. Rich content 
 * Store model API info and keys in `config/gemini.json` or `config/ollama.json`
 * Store tag definitions (with descriptions) in `config/user_tags.json`
 
----
 
-### 🔧 Installation
-
-1. Clone or download this repository.
-
-2. From the project root, install the package:
-
-   ```bash
-   pip install -e .
-   ```
-
-3. Run the converter with:
-
-   ```bash
-   python -m export.main /path/to/export.zip /path/to/output_folder/
-   ```
-
-   To force a provider or convert a raw JSON file:
-
-   ```bash
-   python -m export.main /path/to/conversations.json /path/to/output_folder/ 
-   ```
-
-   Existing flat notes are updated in place by default. To move matching legacy notes into provider subfolders:
-
-   ```bash
-   python -m export.main /path/to/export.zip /path/to/output_folder/ --migrate-layout
-   ```
-
----
 
 ### 🌐 Web UI
 
@@ -77,7 +47,6 @@ This will create a local virtual environment if needed, install the dependencies
 http://127.0.0.1:5001
 ```
 
-The UI lets you upload a conversation export JSON file, select a provider, and choose an output folder for converted Markdown files.
 
 ---
 
