@@ -28,6 +28,8 @@ from export.deepseek_converter import update_all_files as update_deepseek
 app = Flask(__name__)
 app.secret_key = "conversation-organizer-web-ui-secret"
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
 PROVIDERS = {
     "chatgpt": ("ChatGPT", update_chatgpt),
     "grok": ("Grok", update_grok),
@@ -104,7 +106,11 @@ def index():
             flash("Please specify a folder to save the converted files.", "error")
             return redirect(url_for("index"))
 
-        output_dir = Path(output_dir_raw).expanduser().resolve()
+        output_dir = Path(output_dir_raw)
+        # If only a single path component (no separators), resolve relative to PROJECT_ROOT
+        if output_dir.parent == Path("."):
+            output_dir = PROJECT_ROOT / output_dir_raw
+        output_dir = output_dir.expanduser().resolve()
         try:
             output_dir.mkdir(parents=True, exist_ok=True)
         except (PermissionError, OSError) as e:
@@ -134,7 +140,7 @@ def index():
             flash(f"Error during conversion: {e}", "error")
             return redirect(url_for("index"))
 
-    return render_template("index.html", providers=PROVIDERS)
+    return render_template("index.html", providers=PROVIDERS, project_root=str(PROJECT_ROOT))
 
 
 if __name__ == "__main__":

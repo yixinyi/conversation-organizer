@@ -6,7 +6,7 @@
     <title>Conversation Export Tool</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
+<body data-project-root="{{ project_root }}">
     <div class="container">
         <h1>📄 Conversation Export</h1>
         <p class="subtitle">Convert your conversation export JSON into organized markdown files.</p>
@@ -43,9 +43,9 @@
             <div class="form-group">
                 <label for="output_dir">Save to Folder</label>
                 <div class="folder-row">
-                    <input type="text" id="output_dir" name="output_dir" required placeholder="/Users/you/Documents/conversations" style="width: 100%;">
+                    <input type="text" id="output_dir" name="output_dir" required placeholder="e.g. project-root/deepseek (auto-filled when provider is selected)" style="width: 100%;">
                 </div>
-                <div class="info-text">The directory where the converted markdown files will be saved.</div>
+                <div class="info-text">The markdown files are saved here. A subfolder with the provider name is created automatically. You can also enter an absolute path or a single folder name.</div>
             </div>
 
             <button type="submit" class="btn" id="submitBtn">Convert to Markdown</button>
