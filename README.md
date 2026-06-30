@@ -65,13 +65,13 @@ The converter focuses primarily on conversation text and metadata. Rich content 
 
 A simple Flask-based web interface is included in `web_ui/app.py`.
 
-To run it:
+Quick start:
 
 ```bash
-python web_ui/app.py
+python start_web_ui.py
 ```
 
-Then open:
+This will create a local virtual environment if needed, install the dependencies, and start the app. Then open:
 
 ```text
 http://127.0.0.1:5001
