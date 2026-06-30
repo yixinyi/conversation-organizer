@@ -61,4 +61,24 @@ The converter focuses primarily on conversation text and metadata. Rich content 
 
 ---
 
+### 🌐 Web UI
+
+A simple Flask-based web interface is included in `web_ui/app.py`.
+
+To run it:
+
+```bash
+python web_ui/app.py
+```
+
+Then open:
+
+```text
+http://127.0.0.1:5001
+```
+
+The UI lets you upload a conversation export JSON file, select a provider, and choose an output folder for converted Markdown files.
+
+---
+
 **Contributions and collaborators are welcome!**

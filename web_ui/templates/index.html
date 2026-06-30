@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation Export Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📄 Conversation Export</h1>
+        <p class="subtitle">Convert your conversation export JSON into organized markdown files.</p>
+
+        <div id="flashMessages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="json_file">Export JSON File</label>
+                <input type="file" id="json_file" name="json_file" accept=".json" required onchange="updateFileName(this)">
+                <div class="file-name-display" id="fileNameDisplay">No file selected</div>
+                <div class="info-text">The JSON file exported from your chat provider.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="provider">Provider</label>
+                <select id="provider" name="provider" required>
+                    <option value="" disabled selected>-- Select provider --</option>
+                    {% for key, (label, _) in providers.items() %}
+                        <option value="{{ key }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <div class="info-text">Which platform the export is from.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="output_dir">Save to Folder</label>
+                <div class="folder-row">
+                    <input type="text" id="output_dir" name="output_dir" required placeholder="/Users/you/Documents/conversations" style="width: 100%;">
+                </div>
+                <div class="info-text">The directory where the converted markdown files will be saved.</div>
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn">Convert to Markdown</button>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

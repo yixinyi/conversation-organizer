@@ -1,0 +1,301 @@
+/* ── Reset ──────────────────────────────────────── */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #f5f7fa;
+    color: #1a1a2e;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ── Layout ────────────────────────────────────── */
+.container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    width: 640px;
+    max-width: 90vw;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1a1a2e;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 28px;
+}
+
+/* ── Forms ──────────────────────────────────────── */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #374151;
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px dashed #d1d5db;
+    border-radius: 10px;
+    background: #f9fafb;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+input[type="file"]:hover {
+    border-color: #6366f1;
+}
+
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #d1d5db;
+    border-radius: 10px;
+    background: white;
+    font-size: 14px;
+    color: #1a1a2e;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+select:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* ── Buttons ────────────────────────────────────── */
+.btn {
+    width: 100%;
+    padding: 12px 20px;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+    background: #4f46e5;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    padding: 10px 16px;
+    font-size: 14px;
+    width: auto;
+    border-radius: 8px;
+    border: 2px solid #d1d5db;
+    transition: background 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb;
+    border-color: #6366f1;
+}
+
+.btn-secondary:active {
+    transform: scale(0.98);
+}
+
+.btn-secondary:disabled {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-primary {
+    flex: 1;
+    background: #6366f1;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #4f46e5;
+}
+
+/* ── Flash messages ─────────────────────────────── */
+.flash-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.flash-success {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* ── Misc helpers ───────────────────────────────── */
+.info-text {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 6px;
+}
+
+.file-name-display {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #4b5563;
+}
+
+/* ── Folder picker row ──────────────────────────── */
+.folder-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.folder-row input[type="text"] {
+    flex: 1;
+    padding: 10px 12px;
+    border: 2px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #1a1a2e;
+    background: white;
+    min-width: 0;
+    transition: border-color 0.2s;
+}
+
+.folder-row input[type="text"]:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.folder-row input[type="text"]::placeholder {
+    color: #9ca3af;
+}
+
+.folder-picked {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #059669;
+}
+
+/* ── Result page ────────────────────────────────── */
+.success-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.summary {
+    text-align: center;
+    color: #6b7280;
+    font-size: 15px;
+    margin-bottom: 28px;
+    line-height: 1.6;
+}
+
+.summary strong {
+    color: #1a1a2e;
+}
+
+.file-list {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 16px 20px;
+    max-height: 320px;
+    overflow-y: auto;
+    margin-bottom: 24px;
+}
+
+.file-list-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+}
+
+.file-item {
+    font-size: 13px;
+    padding: 4px 0;
+    color: #374151;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.output-dir {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 12px;
+    word-break: break-all;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+}
+
+.actions .btn {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+    border: none;
+}
+
+.actions .btn:active {
+    transform: scale(0.98);
+}
