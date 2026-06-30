@@ -9,7 +9,7 @@
 <body data-project-root="{{ project_root }}">
     <div class="container">
         <h1>📄 Conversation Export</h1>
-        <p class="subtitle">Convert your conversation export JSON into organized markdown files.</p>
+        <p class="subtitle">Upload a provider export zip file to convert conversations into organized markdown files.</p>
 
         <div id="flashMessages">
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -22,33 +22,47 @@
         </div>
 
         <form method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="json_file">Export JSON File</label>
-                <input type="file" id="json_file" name="json_file" accept=".json" required onchange="updateFileName(this)">
-                <div class="file-name-display" id="fileNameDisplay">No file selected</div>
-                <div class="info-text">The JSON file exported from your chat provider.</div>
-            </div>
-
-            <div class="form-group">
-                <label for="provider">Provider</label>
-                <select id="provider" name="provider" required>
-                    <option value="" disabled selected>-- Select provider --</option>
-                    {% for key, (label, _) in providers.items() %}
-                        <option value="{{ key }}">{{ label }}</option>
-                    {% endfor %}
-                </select>
-                <div class="info-text">Which platform the export is from.</div>
-            </div>
-
-            <div class="form-group">
-                <label for="output_dir">Save to Folder</label>
-                <div class="folder-row">
-                    <input type="text" id="output_dir" name="output_dir" required placeholder="e.g. project-root/deepseek (auto-filled when provider is selected)" style="width: 100%;">
+            {% if json_path %}
+                {# --- Detection already done: show conversion form --- #}
+                <div class="upload-summary">
+                    <span class="upload-summary-icon">✅</span>
+                    <span><strong>{{ original_filename }}</strong> uploaded — provider detected as <strong>{{ providers[detected_provider][0] }}</strong></span>
                 </div>
-                <div class="info-text">The markdown files are saved here. A subfolder with the provider name is created automatically. You can also enter an absolute path or a single folder name.</div>
-            </div>
 
-            <button type="submit" class="btn" id="submitBtn">Convert to Markdown</button>
+                <div class="form-group">
+                    <label for="provider">Provider</label>
+                    <select id="provider" name="provider" required>
+                        {% for key, (label, _) in providers.items() %}
+                            <option value="{{ key }}" {% if detected_provider == key %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="info-text">Automatically detected. Change if incorrect.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="output_dir">Save to Folder</label>
+                    <div class="folder-row">
+                        <input type="text" id="output_dir" name="output_dir" required placeholder="e.g. project-root/deepseek" style="width: 100%;" value="{{ default_output_dir or '' }}">
+                    </div>
+                    <div class="info-text">The markdown files are saved here. A subfolder with the provider name is created automatically. You can also enter an absolute path or a single folder name.</div>
+                </div>
+
+                <!-- Hidden fields to carry extracted JSON path and temp dir across POSTs -->
+                <input type="hidden" name="json_path" value="{{ json_path }}">
+                <input type="hidden" name="extract_dir" value="{{ extract_dir }}">
+
+                <button type="submit" class="btn" id="submitBtn">Convert to Markdown</button>
+            {% else %}
+                {# --- Initial state: only upload --- #}
+                <div class="form-group">
+                    <label for="zip_file">Export Zip File</label>
+                    <input type="file" id="zip_file" name="zip_file" accept=".zip" required onchange="updateFileName(this)">
+                    <div class="file-name-display" id="fileNameDisplay">No file selected</div>
+                    <div class="info-text">The zip file exported from your chat provider (Claude, ChatGPT, DeepSeek, or Grok).</div>
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn">Upload & Detect</button>
+            {% endif %}
         </form>
     </div>
 

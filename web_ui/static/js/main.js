@@ -9,7 +9,7 @@ function updateFileName(input) {
     }
 }
 
-// Auto-populate output directory when provider changes
+// Auto-populate output directory when provider changes (manual selection)
 document.getElementById('provider').addEventListener('change', function() {
     const outputDir = document.getElementById('output_dir');
     const provider = this.value;
@@ -22,5 +22,5 @@ document.getElementById('provider').addEventListener('change', function() {
 document.querySelector('form').addEventListener('submit', function() {
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
-    btn.textContent = '⏳ Converting...';
+    btn.textContent = '⏳ Processing...';
 });
