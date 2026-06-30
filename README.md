@@ -37,16 +37,33 @@ A simple Flask-based web interface is included in `web_ui/app.py`.
 
 Quick start:
 
+1. Download the current repository 
+
+2. Open a terminal and write (you must have python installed):
+
 ```bash
 python start_web_ui.py
 ```
 
-This will create a local virtual environment if needed, install the dependencies, and start the app. Then open:
+This will create a local virtual environment if needed, install the dependencies, and start the app. 
 
-```text
+3. Then open a browser and copy the address:
+
+```
 http://127.0.0.1:5001
 ```
 
+To kill the app, use the terminal:
+
+```
+lsof -i :5001  
+```
+
+and look for PID number, then:
+
+```
+kill [PID number]
+```
 
 ---
 

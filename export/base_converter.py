@@ -1,4 +1,3 @@
-import string
 import re
 from abc import ABC, abstractmethod
 from datetime import datetime
@@ -7,6 +6,25 @@ import yaml
 
 from common.utils import find_files_by_id, parse_file
 from export.utils import sanitize_title, format_timestamp
+
+
+# -------------------------------------------------------------------------
+# Custom YAML representer: force datetime-like strings to be quoted
+# so that yaml.safe_load always returns them as strings, not datetime objects.
+# This prevents cross-platform differences in YAML parsing (e.g. Windows vs Mac).
+# -------------------------------------------------------------------------
+
+_ISO_DATETIME_RE = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}')
+
+
+def _timestamp_str_representer(dumper, data):
+    """Quote strings that look like ISO timestamps to prevent YAML from parsing them as datetime."""
+    if _ISO_DATETIME_RE.match(data):
+        return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='"')
+    return dumper.represent_str(data)
+
+
+yaml.add_representer(str, _timestamp_str_representer)
 
 
 # -------------------------------------------------------------------------
