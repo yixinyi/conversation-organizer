@@ -104,6 +104,10 @@ class ChatGPTConverter(BaseConversationExporter):
             current_node = node.get("parent") if node else None
         return messages[::-1]
 
+    def _extract_update_time(self, conversation: dict):
+        """Override to use 'update_time' instead of 'modify_time'."""
+        return conversation.get("update_time")
+
 
 # -------------------------------------------------------------------------
 # Module-level convenience functions for backward compatibility
