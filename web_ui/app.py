@@ -192,6 +192,7 @@ def index():
 
         # Provider detected — re-render the form with pre-selected values
         provider_label = PROVIDERS[detected_provider][0]
+        json_filename = json_path.name
         flash(f"Detected provider: {provider_label}. Change if incorrect and click Convert.", "info")
         default_output_dir = str(PROJECT_ROOT / detected_provider)
         return render_template(
@@ -203,6 +204,7 @@ def index():
             extract_dir=str(extract_dir),
             default_output_dir=default_output_dir,
             original_filename=filename,
+            json_filename=json_filename,
         )
 
     # GET request
